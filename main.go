@@ -12,8 +12,8 @@ func main() {
 		Addresses: []string{
 			"http://localhost:9200/",
 		},
-		Username: "elastic",
-		Password: "1234",
+		// Username: "elastic",
+		// Password: "1234",
 	}
 
 	es, err := elasticsearch.NewClient(cfg)
@@ -22,24 +22,26 @@ func main() {
 		log.Fatalf("Error creating the client: %s", err)
 	}
 
-	createIndexWithMapping(es)
+	deleteIndex(es)
 
-	docs := generateData()
+	// createIndexWithMapping(es)
 
-	for _, bod := range docs {
-		res, err := es.Index(
-			"test-1234",            // Index name
-			strings.NewReader(bod), // Document to index
-			es.Index.WithDocumentID(generateRandomString(20)),
-			es.Index.WithRefresh("true"),
-			es.Index.WithPretty(),
-			es.Index.WithTimeout(100),
-		)
-		if err != nil {
-			log.Fatalf("Error indexing document: %s", err)
-		}
-		log.Println(res)
-	}
+	// docs := generateData()
+
+	// for _, bod := range docs {
+	// 	res, err := es.Index(
+	// 		"test-1234",            // Index name
+	// 		strings.NewReader(bod), // Document to index
+	// 		es.Index.WithDocumentID(generateRandomString(20)),
+	// 		es.Index.WithRefresh("true"),
+	// 		es.Index.WithPretty(),
+	// 		es.Index.WithTimeout(100),
+	// 	)
+	// 	if err != nil {
+	// 		log.Fatalf("Error indexing document: %s", err)
+	// 	}
+	// 	log.Println(res)
+	// }
 }
 
 func createIndexWithMapping(client *elasticsearch.Client) {
